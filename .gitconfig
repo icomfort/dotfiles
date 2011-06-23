@@ -1,0 +1,38 @@
+[user]
+	name = Ian Ward Comfort
+	email = icomfort@stanford.edu
+[core]
+	editor = emacs
+	pager = less -+C -FRSX
+[branch]
+	autosetupmerge = false
+	autosetuprebase = always
+[rebase]
+	autosquash = true
+[rerere]
+	enabled = true
+[color]
+	diff = auto
+[tar]
+	umask = 022
+[sendemail]
+	suppresscc = self
+	confirm = always
+	from = Ian Ward Comfort <icomfort@stanford.edu>
+	bcc = icomfort@stanford.edu
+[alias]
+	b = branch -av
+	f = fetch --all
+	st = status
+	review = "!f() { u='@{u}..'; for rev in $(git log --format=%H \
+	          --reverse \"${@:-$u}\"); do GIT_PAGER='less -CRS' \
+	          git show -C $rev; done; }; f"
+	unfetch = "!f() { git for-each-ref --format='%(refname)' \
+	           refs/remotes/$1/{'*','*/*','*/*/*'} | xargs -rn1 \
+	           git update-ref -d; }; f"
+	fixup = "!f() { git commit \"${@:1:$#-1}\" -m \"fixup! $( \
+	         git log -1 --format=%s \"${@:$#}\")\"; }; f"
+	squash = "!f() { git commit \"${@:1:$#-1}\" -m \"squash! $( \
+	          git log -1 --format=%s \"${@:$#}\")\"; }; f"
+	autosquash = "!f() { GIT_EDITOR=: git rebase -i --autosquash \
+                      \"$@\"; }; f"
